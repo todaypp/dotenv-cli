@@ -18,6 +18,7 @@ function printHelp () {
     '  -v <name>=<value>   multiple -v flags are allowed',
     '  -p <variable>       print value of <variable> to the console. If you specify this, you do not have to specify a `command`',
     '  -c [environment]    support cascading env variables from `.env`, `.env.<environment>`, `.env.local`, `.env.<environment>.local` files',
+    '  -C                  works like -c but set [environment] with `NODE_ENV` environment variable automatically',
     '  command             `command` is the actual command you want to run. Best practice is to precede this command with ` -- `. Everything after `--` is considered to be your command. So any flags will not be parsed by this tool but be passed to your command. If you do not do it, this tool will strip those flags'
   ].join('\n'))
 }
@@ -42,6 +43,15 @@ if (argv.c) {
   paths = paths.reduce((accumulator, path) => accumulator.concat(
     typeof argv.c === 'string'
       ? [`${path}.${argv.c}.local`, `${path}.local`, `${path}.${argv.c}`, path]
+      : [`${path}.local`, path]
+  ), [])
+}
+
+if (argv.C) {
+  var nodeEnv = process.env.NODE_ENV || ''
+  paths = paths.reduce((accumulator, path) => accumulator.concat(
+    !nodeEnv.equals('')
+      ? [`${path}.${nodeEnv}.local`, `${path}.local`, `${path}.${nodeEnv}`, path]
       : [`${path}.local`, path]
   ), [])
 }
