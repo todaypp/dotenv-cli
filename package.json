@@ -4,7 +4,8 @@
   "version": "7.0.0",
   "author": "entropitor",
   "bin": {
-    "dotenv": "./cli.js"
+    "dotenv": "./cli.js",
+    "dotload": "./cli-load.js"
   },
   "dependencies": {
     "cross-spawn": "^7.0.3",
