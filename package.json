@@ -21,7 +21,8 @@
   "preferGlobal": true,
   "repository": "entropitor/dotenv-cli",
   "scripts": {
-    "lint": "standard"
+    "lint": "standard",
+    "lint:fix": "standard --fix"
   },
   "resolutions": {}
 }
