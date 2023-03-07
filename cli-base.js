@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
-var spawn = require('cross-spawn')
-var path = require('path')
+const spawn = require('cross-spawn')
+const path = require('path')
 
-var dotenv = require('dotenv')
-var dotenvExpand = require('dotenv-expand').expand
+const dotenv = require('dotenv')
+const dotenvExpand = require('dotenv-expand').expand
 
 module.exports = function (argv, printHelp) {
   if (argv.help || argv.h) {
@@ -12,7 +12,7 @@ module.exports = function (argv, printHelp) {
     process.exit()
   }
 
-  var paths = []
+  let paths = []
   if (argv.e) {
     if (typeof argv.e === 'string') {
       paths.push(argv.e)
@@ -32,8 +32,8 @@ module.exports = function (argv, printHelp) {
   }
 
   if (argv.C) {
-    var dotEnvName = typeof argv.C === 'string' ? argv.C : 'DOT_ENV'
-    var dotEnv = process.env[dotEnvName] || ''
+    const dotEnvName = typeof argv.C === 'string' ? argv.C : 'DOT_ENV'
+    const dotEnv = process.env[dotEnvName] || ''
     paths = paths.reduce((accumulator, path) => accumulator.concat(
       dotEnv && dotEnv !== ''
         ? [`${path}.${dotEnv}.local`, `${path}.local`, `${path}.${dotEnv}`, path]
@@ -49,7 +49,7 @@ module.exports = function (argv, printHelp) {
 
     return param
   }
-  var variables = []
+  const variables = []
   if (argv.v) {
     if (typeof argv.v === 'string') {
       variables.push(validateCmdVariable(argv.v))
@@ -57,7 +57,7 @@ module.exports = function (argv, printHelp) {
       variables.push(...argv.v.map(validateCmdVariable))
     }
   }
-  var parsedVariables = dotenv.parse(Buffer.from(variables.join('\n')))
+  const parsedVariables = dotenv.parse(Buffer.from(variables.join('\n')))
 
   if (argv.debug) {
     console.log(paths)
@@ -71,12 +71,12 @@ module.exports = function (argv, printHelp) {
   Object.assign(process.env, parsedVariables)
 
   if (argv.p) {
-    var value = process.env[argv.p]
+    const value = process.env[argv.p]
     console.log(value != null ? value : '')
     process.exit()
   }
 
-  var command = argv._[0]
+  const command = argv._[0]
   if (!command) {
     printHelp()
     process.exit(1)
